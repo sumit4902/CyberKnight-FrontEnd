@@ -1,24 +1,23 @@
-import logo from './logo.svg';
-import './App.css';
 
+import AES from './Components/AES';
+import Blog from './Components/Blog';
+import DES from './Components/DES';
+//import EncryptionTool from'./Components/EncryptionTool'
+import { Routes,Route } from 'react-router-dom';
+import Footer from './Components/Footer';
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+    
+    <Routes>
+    {/* <EncryptionTool/> */}
+       <Route path='/' element={<Blog/>}>
+            <Route path='/AES' element={<AES/>}></Route>
+            <Route path='/DES' element={<DES/>}></Route>
+       </Route>
+    </Routes>
+    <Footer/>
+    </>
   );
 }
 
