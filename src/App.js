@@ -1,17 +1,19 @@
 
 import AES from './Components/AES';
-import Blog from './Components/Blog';
+
 import DES from './Components/DES';
 //import EncryptionTool from'./Components/EncryptionTool'
 import { Routes,Route } from 'react-router-dom';
 import Footer from './Components/Footer';
+//import Blog from './Components/Blog';
+import Home from './Components/Home';
 function App() {
   return (
     <>
     
     <Routes>
-    {/* <EncryptionTool/> */}
-       <Route path='/' element={<Blog/>}>
+    
+       <Route path='/' element={<Home/> }>
             <Route path='/AES' element={<AES/>}></Route>
             <Route path='/DES' element={<DES/>}></Route>
        </Route>

@@ -5,9 +5,9 @@ export default function Accordian(props) {
     const[accordian,Setaccordian]=useState(false);
   return (
     <>
-        <div className=" bg-violet-300 mx-3 mb-5">
+        <div className=" bg-violet-300 mx-3 mb-5 rounded-sm">
             <button className="  flex flex-row w-full justify-between items-center " onClick={()=>{Setaccordian(!accordian)}}>
-            <div className=" py-2 px-5 ">
+            <div className=" py-2 px-5 font-semibold">
                {props.question}
             </div>
             <div className="   font-semibond text-4xl px-5 rounded-full">{`${accordian?"-":"+"}`}</div>
