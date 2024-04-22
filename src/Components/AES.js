@@ -67,12 +67,12 @@ export default function AES() {
    {/* faq's Section */}
    <div className=" ipadmini:mx-28">
     <div className="text-center text-3xl  p-5 text-white font-semibold">FAQ'S</div>
-   <Accordian question="Why Should I Use DES ?"  answer="Content Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa, quod!"/>
-   <Accordian question="Why Should I Use DES ?"  answer="Content Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa, quod!"/>
-   <Accordian question="Why Should I Use DES ?"  answer="Content Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa, quod!"/>
-   <Accordian question="Why Should I Use DES ?"  answer="Content Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa, quod!"/>
-   <Accordian question="Why Should I Use DES ?"  answer="Content Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa, quod!"/>
-   <Accordian question="Why Should I Use DES ?"  answer="Content Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa, quod!"/>
+   <Accordian question="What is AES ?"  answer="Content Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa, quod!"/>
+   <Accordian question="Why Should we use AES ?"  answer="Content Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa, quod!"/>
+   <Accordian question="Advantage of AES"  answer="Content Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa, quod!"/>
+   <Accordian question="Disadvantage of AES"  answer="Content Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa, quod!"/>
+   <Accordian question="which Algorithm is use in AES"  answer="Content Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa, quod!"/>
+   <Accordian question="AES in Industry Production Application "  answer="Content Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa, quod!"/>
    </div>
    </>
   )

@@ -3,6 +3,7 @@ import shieldImage from './ShieldImage.png'
 import ringImage from './ringImage.png'
 import imagemen from './imagemen.png'
 import mark from './mark-removebg-preview.png'
+import { Link } from 'react-router-dom'
 export default function Home() {
   return (
     <>
@@ -12,19 +13,19 @@ export default function Home() {
               {/* HeroScection */}
              <div className=" flex ipadmini:flex-row flex-col-reverse ipadmini:px-14 px-2 py-20">
                {/* leftsection */}
-               <div className=" ipadmini:w-1/2 p-2 flex flex-col justify-center gap-y-5 text-white border">
+               <div className=" ipadmini:w-1/2 p-2 flex flex-col justify-center gap-y-5 text-white ">
                 <div className=" text-5xl font-bold">Protecting Your Digital World</div>
                 <div className="max-w-96 text-4xl font-bold">One Byte At a Time</div>
                 <div className=" max-w-96">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Placeat, ex. Lorem ipsum dolor sit amet consectetur adipisicing elit. Officiis, minima?</div>
               
                 <div className=" laptop:text-start text-center">
-                <button className=" border py-3 px-7  rounded-md active:scale-[1.05] font-semibold  ">Get Started</button>
+                <Link to='/EncryptionTool' className=" border py-3 px-7  rounded-md active:scale-[1.05] font-semibold  ">Get Started</Link>
               
                 </div>
                
                </div>
                {/* RightSection */}
-                <div className=" ipadmini:w-1/2  flex flex-col justify-center items-center relative py-10 border ">
+                <div className=" ipadmini:w-1/2  flex flex-col justify-center items-center relative py-10  ">
                     <img src={shieldImage} alt="" className=" h-72 w-72 p-10 " />
                     <img src={ringImage} alt="" className=" absolute top-22 h-48 w-48 animate-ping" />
                 </div>
@@ -36,7 +37,7 @@ export default function Home() {
                 <div className=" font-semibold text-4xl text-center ">Our Services</div>
                 <div className="text-lg text-center p-3">Cyber Security Solutions</div>
                
-                <div className=" grid ipadmini:grid-cols-3 grid-cols-2 gap-3 gap-y-5 py-2 ipadmini:mx-14 mx-2 place-items-center border laptop:px-28 ">
+                <div className=" grid ipadmini:grid-cols-3 grid-cols-2 gap-3 gap-y-5 py-2 ipadmini:mx-14 mx-2 place-items-center  laptop:px-28 ">
                     
                     <div className="border rounded-md  flex flex-col gap-y-2 max-w-60 p-5  justify-center items-center shadow-md shadow-indigo-300   bg-[#34153185]">
                        <div className="w-24 h-24 border rounded-full"></div>
@@ -78,7 +79,7 @@ export default function Home() {
               </div>
 
               {/* What We Do */}
-              <div className=" flex ipadmini:flex-row flex-col ipadmini:mx-14 border py-8 laptop:gap-x-10">
+              <div className=" flex ipadmini:flex-row flex-col ipadmini:mx-14  py-8 laptop:gap-x-10">
                 {/* left part */}
                 <div className=" ipadmini:w-1/2 flex justify-center items-center w-full  ">
                    <div className="rounded-full border-2  border-dotted  flex justify-center items-center h-72 w-72 ">
@@ -114,7 +115,7 @@ export default function Home() {
               </div>
              
 
-              <div className=" flex ipadmini:flex-row-reverse flex-col ipadmini:mx-14 border py-8 laptop:gap-x-10">
+              <div className=" flex ipadmini:flex-row-reverse flex-col ipadmini:mx-14  py-8 laptop:gap-x-10">
                 {/* left part */}
                 <div className=" ipadmini:w-1/2 flex justify-center items-center w-full  ">
                    <div className="rounded-full border-2  border-dotted  flex justify-center items-center h-72 w-72 ">
@@ -151,7 +152,7 @@ export default function Home() {
                       {/* Latest blog section  */}
                       <div className="">
                         <div className="text-center text-white text-4xl font-medium  m-7"> Our Latest Blog </div>
-                        <div className="grid laptop:grid-cols-3 ipadmini:grid-cols-2 grid-cols-1 gap-4 p-5 ipadmini:mx-14 border place-items-center">
+                        <div className="grid laptop:grid-cols-3 ipadmini:grid-cols-2 grid-cols-1 gap-4 p-5 ipadmini:mx-14  place-items-center">
                             {/* card-1 */}
                         <div className=" flex flex-col gap-y-2 border hover:rounded-lg hover:shadow-md hover:shadow-violet-100 transition-all duration-300  ipadmini:w-72 w-full  bg-[#34153185]">
                          <div className="border relative ">
