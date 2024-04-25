@@ -1,11 +1,55 @@
-import React from 'react'
+import React, { useState } from 'react'
 import mark from './mark-removebg-preview.png'
 import uparraow from './uarrow.png'
 import darrow from './darrow.png'
 import Accordian from './Accordian'
+import axios from 'axios'
 export default function AES() {
+  const[encryption,Setencryption]=useState({
+    plainText:"",
+    key:"",
+    response:"",
+    loading:false 
+  }) 
+  // const[decryption,Setdecryption]=useState({
+  //   cipherText:"",
+  //    loading:false
+  // })
+
+   function handleencryption()
+   {
+    let url=`http://localhost:4202/api/v1/encrypt/Message?key=${encryption.key}&algoType=AES`
+    axios.post(url,
+    {
+      plainText:encryption.plainText
+    }).then((response)=>{
+      // console.log(response.data);
+      //Setencryption((prev)=>({...prev,response:response.data}));
+      Setencryption({response:response.data.cipherText});
+    }).catch((error)=>{
+      console.log(error);
+    }
+  )
+
+   }
+
+   function decryptionMessage()
+   {  let url=`http://localhost:4202/api/v1/decrypt/Message?key=${encryption.key}&algoType=AES`
+      axios.post(url,
+      {
+        cipherText:encryption.plainText
+      }).then((response)=>
+      {
+        Setencryption({response:response.data.plainText});
+      // console.log(response.data);
+    }).catch((error)=>{
+      console.log(error);
+    }
+    )
+   }
   return (
    <>
+   <div className=" text-white">AES</div>
    <div className=" grid ipadmini:grid-cols-2 grid-cols-1 gap-x-10 gap-y-3  px-28  py-3 place-items-center">
     
     <div className=" border-2  py-2 gap-x-3 w-64 rounded-md flex flex-row items-center ps-7 text-md font-semibold text-white "> 
@@ -28,15 +72,16 @@ export default function AES() {
      {/* Encryption / Decryption */}
    <div className=" flex ipadmini:flex-row flex-col gap-x-5 justify-between  ">
     <div className="  ipadmini:w-1/2 w-full">
-       <textarea name="" id=""className=' w-full min-h-56 p-3 border-4  border-white placeholder-white font-semibold bg-transparent text-white rounded-lg focus:outline-none ' placeholder='Enter PlainText'></textarea>
-       <input type="text" className=" border-2 border-white py-2 px-5 w-full placeholder-white font-semibold bg-transparent text-white rounded-lg focus:outline-none  " placeholder='Enter Key' />
+       <textarea onChange={(event)=>{Setencryption((prev)=>({...prev,plainText:event.target.value}))}} name="" id=""className=' w-full min-h-56 p-3 border-4  border-white placeholder-white font-semibold bg-transparent text-white rounded-lg focus:outline-none ' placeholder='Enter PlainText'></textarea>
+       
+       <input onChange={(event)=>{Setencryption((prev)=>({...prev,key:event.target.value}))}} type="text" className=" border-2 border-white py-2 px-5 w-full placeholder-white font-semibold bg-transparent text-white rounded-lg focus:outline-none  " placeholder='Enter Key' />
        <div className=" flex flex-row justify-evenly gap-y-4 py-3 ">
-        <button className="border-2 py-2 px-8 rounded-md active:scale-[1.07]  text-white font-semibold  ">Encryption</button>
-        <button className="border-2 py-2 px-8 rounded-md active:scale-[1.07] text-white font-semibold">Decryption</button>
+        <button onClick={()=>{handleencryption()}} className="border-2 py-2 px-8 rounded-md active:scale-[1.07]  text-white font-semibold  ">Encryption</button>
+        <button onClick={()=>{decryptionMessage()}} className="border-2 py-2 px-8 rounded-md active:scale-[1.07] text-white font-semibold">Decryption</button>
        </div>
     </div>
     <div className=" ipadmini:w-1/2 w-full border-white ">
-        <div className='w-full min-h-56 border-4 border-white rounded-md '></div>
+        <div className='w-full min-h-56 border-4 border-white rounded-md p-2 text-white'>{encryption.response}</div>
     </div>
    </div>
    {/* stepSection */}

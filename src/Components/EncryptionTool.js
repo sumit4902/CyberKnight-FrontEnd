@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
-import AES from './AES'
+//import AES from './AES'
+import { Link, Outlet } from 'react-router-dom';
 //import image from './background.jpg';
 export default function EncryptionTool() { 
 
@@ -9,8 +10,8 @@ export default function EncryptionTool() {
   return (
    <>
    
-   <div className="w-[100%] "  >
-     <div className=" mx-auto w-[100%] mobile:max-w-[540px] ipadmini:max-w-[768px] ipadair:max-w-[960px] laptop:max-w-[1240px] bg-gradient-to-b from-[#242472] via-[#81358c] to-zinc-900 ">
+   <div className="w-[100%]  bg-gradient-to-b from-[#242472] via-[#81358c] to-zinc-900  "  >
+     <div className=" mx-auto w-[100%] mobile:max-w-[540px] ipadmini:max-w-[868px] ipadair:max-w-[960px] laptop:max-w-[1240px]">
             
             <div className="relative flex ipadmini:flex-row  border ">
 
@@ -25,8 +26,8 @@ export default function EncryptionTool() {
                     </span>
                 </div>
                 <div className=" p-2 border-t  flex flex-row justify-around items-center text-white font-medium">
-                    <span className="border-2  py-2 rounded-md min-w-20 text-center">AES</span>
-                    <span className="border-2  py-2 rounded-md min-w-20 text-center">DES</span>
+                    <Link to = '/EncryptionTool/AES' className="border-2  py-2 rounded-md min-w-20 text-center">AES</Link>
+                    <Link to ='/EncryptionTool/DES' className="border-2  py-2 rounded-md min-w-20 text-center">DES</Link>
                 </div>
                 <div className=" p-2  flex flex-row justify-around items-center text-white font-medium">
                     <span className="border-2  py-2 rounded-md min-w-20 text-center">MAC</span>
@@ -49,7 +50,8 @@ export default function EncryptionTool() {
                                   />
                                 </svg>
                                  </div>
-                     <AES/>
+                     {/* <AES/> */}
+                     <Outlet/>  
                 </div>    
             </div> 
              

@@ -6,14 +6,14 @@ export default function Navbar()
 return(
  <>
  <nav>  
-  <div className="flex flex-row flex-wrap justify-between items-center py-2 px-10  bg-[#242472f0] text-white">
+  <div className="flex flex-row  justify-between items-center py-2 px-10  bg-[#242472f0] text-white">
     <div className=" ipadmini:visible p-2 text-2xl text-semibold italic">CyberKnight</div>
     <div className="ipadmini:block hidden laptop:me-28 ">
-        <Link to='/' className="p-1 mx-5">HOME</Link>
-        <Link to='Encryptiontool' className="p-1 mx-5">ENCRYPTION TOOL</Link>
-        <Link to='/Blog' className="p-1 mx-5">BLOGS</Link>
-        <Link to='/' className="p-1 mx-5">SECURITY API</Link>
-        <Link to='/' className="p-1 mx-5">ABOUT</Link>
+        <Link to='/' className="p-1 laptop:mx-5 mx-2">HOME</Link>
+        <Link to='/Encryptiontool/AES' className="p-1 laptop:mx-5 mx-2">ENCRYPTION TOOL</Link>
+        <Link to='/Blog' className="p-1 laptop:mx-5 mx-2">BLOGS</Link>
+        <Link to='/Authapi' className="p-1 laptop:mx-5 mx-2">SECURITY API</Link>
+        <Link to='/profile' className="p-1 laptop:mx-5 mx-2">PROFILE</Link>
     </div>
     <div className="ipadmini:hidden" onClick={()=>{Settoggle(true)}}>
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
@@ -35,10 +35,10 @@ return(
         </div>
        
         <Link to='/' className="px-5 py-2 text-lg border rounded-md shadow-sm w-full  bg-[#6e386ca4] text-white">HOME</Link>
-        <Link to='/EncryptionTool' className="px-5 py-2 text-lg border rounded-md shadow-sm w-full  bg-[#6e386ca4] text-white">ENCRYPTION TOOL</Link>
+        <Link to='/EncryptionTool/AES' className="px-5 py-2 text-lg border rounded-md shadow-sm w-full  bg-[#6e386ca4] text-white">ENCRYPTION TOOL</Link>
         <Link to='/Blog' className="px-5 py-2 text-lg border rounded-md shadow-sm w-full  bg-[#6e386ca4] text-white">BLOGS</Link>
-        <Link to='/' className="px-5 py-2 text-lg border rounded-md shadow-sm w-full  bg-[#6e386ca4] text-white">SECURITY APIS</Link>
-        <Link to='/' className="px-5 py-2 text-lg border rounded-md shadow-sm w-full  bg-[#6e386ca4] text-white">ABOUT</Link>
+        <Link to='/Authapi' className="px-5 py-2 text-lg border rounded-md shadow-sm w-full  bg-[#6e386ca4] text-white">SECURITY APIS</Link>
+        <Link to='/profile' className="px-5 py-2 text-lg border rounded-md shadow-sm w-full  bg-[#6e386ca4] text-white">PROFILE</Link>
        
     </div>
   </nav>

@@ -11,15 +11,15 @@ export default function Home() {
      <div className=" mx-auto w-[100%] mobile:max-w-[540px] ipadmini:max-w-[768px] ipadair:max-w-[960px] laptop:max-w-[1240px]   ">
       
               {/* HeroScection */}
-             <div className=" flex ipadmini:flex-row flex-col-reverse ipadmini:px-14 px-2 py-20">
+             <div className=" flex ipadmini:flex-row flex-col-reverse ipadmini:px-14 px-2 ipadmini:py-20 pb-20">
                {/* leftsection */}
                <div className=" ipadmini:w-1/2 p-2 flex flex-col justify-center gap-y-5 text-white ">
                 <div className=" text-5xl font-bold">Protecting Your Digital World</div>
                 <div className="max-w-96 text-4xl font-bold">One Byte At a Time</div>
                 <div className=" max-w-96">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Placeat, ex. Lorem ipsum dolor sit amet consectetur adipisicing elit. Officiis, minima?</div>
               
-                <div className=" laptop:text-start text-center">
-                <Link to='/EncryptionTool' className=" border py-3 px-7  rounded-md active:scale-[1.05] font-semibold  ">Get Started</Link>
+                <div className=" laptop:text-start text-center mt-6">
+                <Link to='/EncryptionTool/AES' className=" border py-3 px-7  rounded-md active:scale-[1.05] font-semibold  ">Get Started</Link>
               
                 </div>
                
