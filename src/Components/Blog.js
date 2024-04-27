@@ -1,8 +1,9 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
-
+import AuthUser from './AuthUser';
+import ReadMore from './ReadMore';
 export default function Blog() {
-
+   const{user,token,logout}= AuthUser();
     const[filter,Setfilter]=useState(false);
     const[blogmodel,Setblogmodel]=useState(false);
 
@@ -25,13 +26,17 @@ export default function Blog() {
        function  handleBlogApi()
     {
       let url =`http://localhost:4202/api/v1/blog/all?crimeType=${filterdata.crimeType}&title=${filterdata.title}&commitPlace=${filterdata.commitPlace}&pageNo=&pageSize&sortBy=&direc=`
-      axios.get(url)
+      axios.get(url,{
+         headers:{
+            "Authorization":`Bearer `+token
+         }
+      })
       .then((response)=>{
           
-         SetBlogdata(prevState => ({ 
+         SetBlogdata({ 
             
             content: response.data.content
-        }));
+        });
           console.log(response);
       })
       .catch((error)=>{
@@ -53,17 +58,29 @@ export default function Blog() {
     function handleblogWriting(event)
     {
       event.preventDefault();
-       let url ='http://localhost:4202/api/v1/user/2/blog/create'
+       let url =`http://localhost:4202/api/v1/user/${user}/blog/create`
        axios.post(url,{
          crimeType:blogWriting.crimeType,
          title:blogWriting.title,
          commitPlace:blogWriting.commitPlace,
          description:blogWriting.description,
-       }).then((response)=>{
+       },{
+         headers:{
+            "Authorization":`Bearer `+token
+         }
+      }
+      ).then((response)=>{
          console.log(response);
        }).catch((error)=>{
          console.log(error);
        })
+    }
+
+    // ReadMore Blog //
+    const[isOpen,setIsOpen]=useState(false);
+    function ReadMoreModel(value)
+    {
+       setIsOpen(value);
     }
   return (
     <>
@@ -113,14 +130,17 @@ export default function Blog() {
                return(
                   <div className=" flex flex-col gap-y-2 border hover:rounded-lg hover:shadow-md hover:shadow-violet-100 transition-all duration-300  ipadmini:w-72 w-full  bg-[#34153185]">
                   <div className="border relative ">
-                   <img src="https://www.connerindustries.com/wp-content/uploads/2019/11/trucking-cyber-attacks.jpg" alt="" className="w-full ipadmini:h-40 h-64  " />
+                   <img src={`http://localhost:4202/api/v1/image/blog/${key.blogId}`} alt="" className="w-full ipadmini:h-40 h-64  " />
                    <span className=" absolute left-0 bottom-0 px-2 bg-sky-600 text-white">November 20 2023</span>
                    </div> 
                   <div className=" px-3  font-medium text-slate-200">{key.title}</div>
                   <div className=" px-3 text-[0.9rem] text-purple-200">{key.description} </div>
                   <div className=" px-3 text-center p-2 py-3 ">
-                   <button className=" py-1 px-3 border  rounded-lg active:scale-[1.07] bg-purple-300 font-semibold ">ReadMore</button>
+                   <button onClick={()=>{setIsOpen(true)}} className=" py-1 px-3 border  rounded-lg active:scale-[1.07] bg-purple-300 font-semibold ">ReadMore</button>
                   </div>
+                    {/* Readmore Section For Blog*/}
+               <ReadMore ReadmoreFunction={ReadMoreModel} isopen={isOpen} blogId={key.blogId} title={key.title} Address={key.commitPlace} description={key.description}/>
+  
                </div>
                )
              })}
@@ -164,17 +184,17 @@ export default function Blog() {
     </div>
 
      {/* write blog */}
-     <div className={` ${blogmodel?"":"hidden"} absolute  inset-0 flex flex-col justify-start py-5 items-start backdrop-blur-2xl`}>
+     <div className={` ${blogmodel?"":"hidden"} absolute  left-0 right-0 top-0 min-h-screen flex flex-col justify-start py-5 items-start backdrop-blur-2xl`}>
      <button className="w-full flex justify-end pe-10 text-white"><span className="" onClick={()=>{Setblogmodel(false)}}><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-8 h-8">
                                                              <path strokeLinecap="round" strokeLinejoin="round" d="m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                                                               </svg></span>
       </button>
-       <form onSubmit={handleblogWriting} className=" w-full ipadmini:px-28 px-2">    
+       <form onSubmit={handleblogWriting} className=" w-full laptop:px-28 ipadmini:px-20 px-2">    
         
          <div className=" flex ipadmini:flex-row flex-col gap-y-3  justify-around items-center py-2">
-            <input onChange={(event)=>(SetblogWriting((prev)=>({...prev,crimeType:event.target.value})))} type="text" className=" ipadmini:w-80 w-full p-2 bg-transparent border-2 text-white placeholder-white focus:outline-none rounded focus:shadow-md shadow-slate-300" placeholder='What Kind Of Attack' />
-            <input onChange={(event)=>(SetblogWriting((prev)=>({...prev,title:event.target.value})))} type="text" className=" ipadmini:w-80 w-full p-2 bg-transparent border-2 text-white placeholder-white focus:outline-none rounded focus:shadow-md shadow-slate-300" placeholder='Title of blog' />
-            <input onChange={(event)=>(SetblogWriting((prev)=>({...prev,commitPlace:event.target.value})))} type="text" className=" ipadmini:w-80 w-full p-2 bg-transparent border-2 text-white placeholder-white focus:outline-none rounded focus:shadow-md shadow-slate-300" placeholder='commit place' />
+            <input onChange={(event)=>(SetblogWriting((prev)=>({...prev,crimeType:event.target.value})))} type="text" className=" ipadmini:w-72 w-full p-2 bg-transparent border-2 text-white placeholder-white focus:outline-none rounded focus:shadow-md shadow-slate-300" placeholder='What Kind Of Attack' />
+            <input onChange={(event)=>(SetblogWriting((prev)=>({...prev,title:event.target.value})))} type="text" className=" ipadmini:w-72 w-full p-2 bg-transparent border-2 text-white placeholder-white focus:outline-none rounded focus:shadow-md shadow-slate-300" placeholder='Title of blog' />
+            <input onChange={(event)=>(SetblogWriting((prev)=>({...prev,commitPlace:event.target.value})))} type="text" className=" ipadmini:w-72 w-full p-2 bg-transparent border-2 text-white placeholder-white focus:outline-none rounded focus:shadow-md shadow-slate-300" placeholder='commit place' />
            
          </div>
         <textarea onChange={(event)=>(SetblogWriting((prev)=>({...prev,description:event.target.value})))} name="" className='min-h-80  w-full p-5 focus:outline-none bg-transparent border-2 border-white text-white rounded-md placeholder-stone-200' placeholder='Write Your Incident , Advice Regarding CyberCrime'></textarea>

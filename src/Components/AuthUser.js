@@ -15,8 +15,8 @@ export default function AuthUser() {
   }
  
    // Both states are use to call api in different components //
-   const[user,setUser]=useState(getToken());   // if user is already login then they should not be empty so initialize with session storage token //
-   const[token,setToken]=useState(getUser());
+   const[user,setUser]=useState(getUser());   // if user is already login then they should not be empty so initialize with session storage token //
+   const[token,setToken]=useState(getToken());
 
    // funstion to set token and user into localstorage while user login //
    const saveToken =(user,token)=>{

@@ -1,19 +1,32 @@
 import React, { useState } from "react"
 import { Link } from "react-router-dom";
-export default function Navbar()
-{
+import AuthUser from "./AuthUser";
+export default function Navbar(props)
+{     // console.log(props.isLogin);
        const[toggle,Settoggle]=useState(false);
+       
+     
+       const{logout}= AuthUser();
+       function Logout(){
+           logout();
+           setTimeout(()=>{
+              window.location.reload();
+              Settoggle(false);
+           },1000)
+          
+       }
 return(
  <>
  <nav>  
   <div className="flex flex-row  justify-between items-center py-2 px-10  bg-[#242472f0] text-white">
-    <div className=" ipadmini:visible p-2 text-2xl text-semibold italic">CyberKnight</div>
+    <div className={` ${toggle?"invisible":""} p-2 text-2xl text-semibold italic`}>CyberKnight</div>
     <div className="ipadmini:block hidden laptop:me-28 ">
-        <Link to='/' className="p-1 laptop:mx-5 mx-2">HOME</Link>
+        <Link to='/' className="p-1 laptop:mx-5 mx-2"  >HOME</Link>
         <Link to='/Encryptiontool/AES' className="p-1 laptop:mx-5 mx-2">ENCRYPTION TOOL</Link>
         <Link to='/Blog' className="p-1 laptop:mx-5 mx-2">BLOGS</Link>
         <Link to='/Authapi' className="p-1 laptop:mx-5 mx-2">SECURITY API</Link>
         <Link to='/profile' className="p-1 laptop:mx-5 mx-2">PROFILE</Link>
+       
     </div>
     <div className="ipadmini:hidden" onClick={()=>{Settoggle(true)}}>
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
@@ -34,11 +47,12 @@ return(
             </span>
         </div>
        
-        <Link to='/' className="px-5 py-2 text-lg border rounded-md shadow-sm w-full  bg-[#6e386ca4] text-white">HOME</Link>
-        <Link to='/EncryptionTool/AES' className="px-5 py-2 text-lg border rounded-md shadow-sm w-full  bg-[#6e386ca4] text-white">ENCRYPTION TOOL</Link>
-        <Link to='/Blog' className="px-5 py-2 text-lg border rounded-md shadow-sm w-full  bg-[#6e386ca4] text-white">BLOGS</Link>
-        <Link to='/Authapi' className="px-5 py-2 text-lg border rounded-md shadow-sm w-full  bg-[#6e386ca4] text-white">SECURITY APIS</Link>
-        <Link to='/profile' className="px-5 py-2 text-lg border rounded-md shadow-sm w-full  bg-[#6e386ca4] text-white">PROFILE</Link>
+        <Link to='/' onClick={()=>{Settoggle(false)}} className="px-5 py-2 text-lg border rounded-md shadow-sm w-full  bg-[#6e386ca4] text-white">HOME</Link>
+        <Link to='/EncryptionTool/AES' onClick={()=>{Settoggle(false)}} className="px-5 py-2 text-lg border rounded-md shadow-sm w-full  bg-[#6e386ca4] text-white">ENCRYPTION TOOL</Link>
+        <Link to='/Blog' onClick={()=>{Settoggle(false)}} className="px-5 py-2 text-lg border rounded-md shadow-sm w-full  bg-[#6e386ca4] text-white">BLOGS</Link>
+        <Link to='/Authapi' onClick={()=>{Settoggle(false)}} className="px-5 py-2 text-lg border rounded-md shadow-sm w-full  bg-[#6e386ca4] text-white">SECURITY APIS</Link>
+        <Link to='/profile' onClick={()=>{Settoggle(false)}} className="px-5 py-2 text-lg border rounded-md shadow-sm w-full  bg-[#6e386ca4] text-white">PROFILE</Link>
+        <button  onClick={Logout}  className={`${props.isLogin?"":"hidden"} px-5 py-2 text-lg border rounded-md shadow-sm w-full hover:bg-[#4b2347] active:scale-[1.02]  bg-[#6e386ca4] text-white`}>LOGOUT</button>
        
     </div>
   </nav>
