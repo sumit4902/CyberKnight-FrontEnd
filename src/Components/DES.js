@@ -4,28 +4,35 @@ import uparraow from './uarrow.png'
 import darrow from './darrow.png'
 import Accordian from './Accordian'
 import axios from 'axios'
+import AuthUser from './AuthUser'
+
 export default function DES() {
-  const[encryption,Setencryption]=useState({
-    plainText:"",
-    key:"",
-    response:"",
-    loading:false 
-  }) 
-  // const[decryption,Setdecryption]=useState({
-  //   cipherText:"",
-  //    loading:false
-  // })
+  // this is use for the Token 
+  const{user,token,logout}= AuthUser();
+        
+
+    const[message,Setmessage]=useState();
+    const[key,setKey]=useState();
+    const[output,Setoutput]= useState();
+  
+  
 
    function handleencryption()
    {
-    let url=`http://localhost:4202/api/v1/encrypt/Message?key=${encryption.key}&algoType=AES`
+    let url=`http://localhost:4202/api/v1/encrypt/Message?key=${key}&algoType=DES`
     axios.post(url,
     {
-      plainText:encryption.plainText
-    }).then((response)=>{
+      plainText:message
+    },
+    {
+      headers:{
+         "Authorization":`Bearer `+token
+      }
+   }
+  
+  ).then((response)=>{
       // console.log(response.data);
-      //Setencryption((prev)=>({...prev,response:response.data}));
-      Setencryption({response:response.data.cipherText});
+      Setoutput(response.data.cipherText);
     }).catch((error)=>{
       console.log(error);
     }
@@ -34,14 +41,25 @@ export default function DES() {
    }
 
    function decryptionMessage()
-   {  let url=`http://localhost:4202/api/v1/decrypt/Message?key=${encryption.key}&algoType=AES`
+   {  let url=`http://localhost:4202/api/v1/decrypt/Message?key=${key}&algoType=DES`
       axios.post(url,
       {
-        cipherText:encryption.plainText
-      }).then((response)=>
+        cipherText:message
+      },
       {
-        Setencryption({response:response.data.plainText});
-      // console.log(response.data);
+        headers:{
+           "Authorization":`Bearer `+token
+        }
+     }
+    ).then((response)=>
+      {
+       
+        Setoutput(response.data.plainText);
+        if(output==="")
+        {
+          Setoutput("Your CipherText or Key is Something Wrong");
+        }
+       console.log(response.data);
     }).catch((error)=>{
       console.log(error);
     }
@@ -72,16 +90,16 @@ export default function DES() {
      {/* Encryption / Decryption */}
    <div className=" flex ipadmini:flex-row flex-col gap-x-5 justify-between  ">
     <div className="  ipadmini:w-1/2 w-full">
-       <textarea onChange={(event)=>{Setencryption((prev)=>({...prev,plainText:event.target.value}))}} name="" id=""className=' w-full min-h-56 p-3 border-4  border-white placeholder-white font-semibold bg-transparent text-white rounded-lg focus:outline-none ' placeholder='Enter PlainText'></textarea>
-       
-       <input onChange={(event)=>{Setencryption((prev)=>({...prev,key:event.target.value}))}} type="text" className=" border-2 border-white py-2 px-5 w-full placeholder-white font-semibold bg-transparent text-white rounded-lg focus:outline-none  " placeholder='Enter Key' />
+       <textarea value={message} onChange={(event)=>{Setmessage(event.target.value)}} name="" id=""className=' w-full min-h-56 p-3 border-4  border-white placeholder-white font-semibold bg-transparent text-white rounded-lg focus:outline-none ' placeholder='Enter PlainText'></textarea>
+    
+       <input onChange={(event)=>{setKey(event.target.value)}} type="text" className=" border-2 border-white py-2 px-5 w-full placeholder-white font-semibold bg-transparent text-white rounded-lg focus:outline-none  " placeholder='Enter Key' />
        <div className=" flex flex-row justify-evenly gap-y-4 py-3 ">
         <button onClick={()=>{handleencryption()}} className="border-2 py-2 px-8 rounded-md active:scale-[1.07]  text-white font-semibold  ">Encryption</button>
         <button onClick={()=>{decryptionMessage()}} className="border-2 py-2 px-8 rounded-md active:scale-[1.07] text-white font-semibold">Decryption</button>
        </div>
     </div>
     <div className=" ipadmini:w-1/2 w-full border-white ">
-        <div className='w-full min-h-56 border-4 border-white rounded-md p-2 text-white'>{encryption.response}</div>
+        <div className='w-full min-h-56 border-4 border-white rounded-md p-2 text-white'>{output}</div>
     </div>
    </div>
    {/* stepSection */}
@@ -108,6 +126,7 @@ export default function DES() {
     </div>
     
    </div>
+
 
    {/* faq's Section */}
    <div className=" ipadmini:mx-28">

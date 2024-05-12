@@ -8,8 +8,14 @@ export default function UpdateProfile(props) {
         contact:"",
         email:"",
         address:"",
-        image:"",
+       
      });
+     const[image,Setimage]=useState("");
+      const formdata= new FormData();
+         formdata.append('image',image);
+
+
+
      useEffect(()=>{
        // Api Call Hone ke  2min bad data aa raha tha then i have take this action //
      setUpdateData({userName:props.profileData.userName,contact:props.profileData.contact,email:props.profileData.email,address:props.profileData.address});
@@ -39,7 +45,14 @@ export default function UpdateProfile(props) {
             }
            }
         ).then((response)=>{
-            console.log(response);   // Image is Not Empty Then Update Image Also //
+           // console.log(response);   // Image is Not Empty Then Update Image Also //
+           if(image!=="")
+            {
+                axios.put(`http://localhost:4202/api/v1/image/update/${response.data.image.imageId}`,formdata)
+                .catch((err)=>{
+                    console.log("error in image updation please select other image");
+                })
+            }
             window.location.reload();
         })
         .catch((error)=>{
@@ -62,7 +75,7 @@ export default function UpdateProfile(props) {
         {
             return "Write Correct Phone Number"
         }
-        else if(! updateData.email.includes("@") || updateData.email !=="")
+        else if(!updateData.email.includes("@") || updateData.email==="")
         {
             return "write Correct Email"
         }
@@ -94,8 +107,8 @@ export default function UpdateProfile(props) {
                     <span className="">
                         <img src={userIcon} alt="" className="h-32 w-36 rounded-full " />
                     </span>
-                <input type="file" className="hidden" id='103' />
-                <span className="text-neutral-200">Update Image</span>
+                <input type="file" className="hidden" id='103' onChange={(event)=>{Setimage(event.target.files[0])}} />
+                <span className="text-neutral-200">{image!==""?"Done":"Update Image"}</span>
                 </label>
                 
             </div>

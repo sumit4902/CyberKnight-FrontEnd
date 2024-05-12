@@ -5,9 +5,8 @@ import darrow from './darrow.png'
 import Accordian from './Accordian'
 import axios from 'axios'
 import AuthUser from './AuthUser'
-import Loader from './Loader'
 
-export default function AES() {
+export default function Hash() {
   // this is use for the Token 
   const{user,token,logout}= AuthUser();
         
@@ -15,12 +14,11 @@ export default function AES() {
     const[message,Setmessage]=useState();
     const[key,setKey]=useState();
     const[output,Setoutput]= useState();
-    const[loader,setLoader]=useState(false);
   
   
 
    function handleencryption()
-   {  setLoader(true);
+   {
     let url=`http://localhost:4202/api/v1/encrypt/Message?key=${key}&algoType=AES`
     axios.post(url,
     {
@@ -34,9 +32,7 @@ export default function AES() {
   
   ).then((response)=>{
       // console.log(response.data);
-      setLoader(false);
       Setoutput(response.data.cipherText);
-
     }).catch((error)=>{
       console.log(error);
     }
@@ -45,34 +41,13 @@ export default function AES() {
    }
 
    function decryptionMessage()
-   { setLoader(true); 
-     let url=`http://localhost:4202/api/v1/decrypt/Message?key=${key}&algoType=AES`
-      axios.post(url,
-      {
-        cipherText:message
-      },
-      {
-        headers:{
-           "Authorization":`Bearer `+token
-        }
-     }
-    ).then((response)=>
-      {
-         setLoader(false);
-        Setoutput(response.data.plainText);
-        if(output=="")
-        {
-          Setoutput("Your CipherText or Key is Something Wrong");
-        }
-       console.log(response.data);
-    }).catch((error)=>{
-      console.log(error);
-    }
-    )
+   {  
+      
+     //Hash cannot be decrypted //
    }
   return (
    <>
-   <div className=" text-white">AES</div>
+   <div className=" text-white">Hash</div>
    <div className=" grid ipadmini:grid-cols-2 grid-cols-1 gap-x-10 gap-y-3  px-28  py-3 place-items-center">
     
     <div className=" border-2  py-2 gap-x-3 w-64 rounded-md flex flex-row items-center ps-7 text-md font-semibold text-white "> 
@@ -97,16 +72,14 @@ export default function AES() {
     <div className="  ipadmini:w-1/2 w-full">
        <textarea value={message} onChange={(event)=>{Setmessage(event.target.value)}} name="" id=""className=' w-full min-h-56 p-3 border-4  border-white placeholder-white font-semibold bg-transparent text-white rounded-lg focus:outline-none ' placeholder='Enter PlainText'></textarea>
     
-       <input onChange={(event)=>{setKey(event.target.value)}} type="text" className=" border-2 border-white py-2 px-5 w-full placeholder-white font-semibold bg-transparent text-white rounded-lg focus:outline-none  " placeholder='Enter Key' />
+       <input onChange={(event)=>{setKey(event.target.value)}} type="text" className="hidden border-2 border-white py-2 px-5 w-full placeholder-white font-semibold bg-transparent text-white rounded-lg focus:outline-none  " placeholder='There is Not Key Concept' />
        <div className=" flex flex-row justify-evenly gap-y-4 py-3 ">
-        <button onClick={()=>{handleencryption()}} className="border-2 py-2 px-8 rounded-md active:scale-[1.07]  text-white font-semibold  ">Encryption</button>
-        <button onClick={()=>{decryptionMessage()}} className="border-2 py-2 px-8 rounded-md active:scale-[1.07] text-white font-semibold">Decryption</button>
+        <button onClick={()=>{handleencryption()}} className="border-2  py-2 px-8 rounded-md active:scale-[1.07]  text-white font-semibold  ">Get HashCode</button>
+        <button onClick={()=>{decryptionMessage()}} className="border-2 hidden py-2 px-8 rounded-md active:scale-[1.07] text-white font-semibold">Decryption</button>
        </div>
     </div>
     <div className=" ipadmini:w-1/2 w-full border-white ">
-        <div className='relative w-full min-h-56 border-4 border-white rounded-md p-2 text-white'>
-          <span className={`absolute top-[40%] left-[45%] ${loader?"":"hidden"}`}> <Loader/> </span>
-          {output}</div>
+        <div className='w-full min-h-56 border-4 border-white rounded-md p-2 text-white'>{output}</div>
     </div>
    </div>
    {/* stepSection */}

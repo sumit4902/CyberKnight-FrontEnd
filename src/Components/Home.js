@@ -1,10 +1,35 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import shieldImage from './ShieldImage.png'
 import ringImage from './ringImage.png'
 import imagemen from './imagemen.png'
+import AboutImage from './AboutImage.png'
+import AuthImage from './HomeAuthImage.png'
 import mark from './mark-removebg-preview.png'
 import { Link } from 'react-router-dom'
+import AuthUser from './AuthUser';
+import axios from 'axios'
 export default function Home() {
+  const { user, token, logout } = AuthUser();
+  const [blogs, setBlogs] = useState([]);
+
+  function fetchAllblogsofUser() {
+    let url = `http://localhost:4202/api/v1/blog/all?crimeType=&title=&commitPlace=&pageNo=0&pageSize=3&sortBy=blogId&direc=desc`
+    axios.get(url, {
+      headers: {
+        "Authorization": `Bearer ` + token
+      }
+    }).then((response) => {
+      // console.log(response);
+      setBlogs(response.data.content);
+    }
+    ).catch((err) => {
+      console.log(err);
+    })
+  }
+  useEffect(() => {
+   
+    fetchAllblogsofUser();
+  }, [])
   return (
     <>
      <div className=" w-[100%] bg-gradient-to-b from-[#242472] via-[#81358c] to-zinc-900">
@@ -47,31 +72,31 @@ export default function Home() {
                     </div>
                     <div className="border rounded-md  flex flex-col gap-y-2 max-w-60 p-5  justify-center items-center shadow-md shadow-indigo-300   bg-[#34153185]">
                        <div className="w-24 h-24 border rounded-full"></div>
-                       <span className="text-lg font-medium text-slate-200">EncryptionTool</span>
+                       <span className="text-lg font-medium text-slate-200">CyberSecurity Blogs</span>
                        <div className="text-sm text-center text-purple-200">Lorem ipsum dolor sit amet consectetur adipisicing elit. Ducimus, nemo!</div>
                        <button className=" border py-1 px-10 bg-purple-300 rounded active:scale-[1.04] text-black font-medium">Go</button>
                     </div>
                     <div className="border rounded-md  flex flex-col gap-y-2 max-w-60 p-5  justify-center items-center shadow-md shadow-indigo-300   bg-[#34153185]">
                        <div className="w-24 h-24 border rounded-full"></div>
-                       <span className="text-lg font-medium text-slate-200">EncryptionTool</span>
+                       <span className="text-lg font-medium text-slate-200">Authentication Apis</span>
                        <div className="text-sm text-center text-purple-200">Lorem ipsum dolor sit amet consectetur adipisicing elit. Ducimus, nemo!</div>
                        <button className=" border py-1 px-10 bg-purple-300 rounded active:scale-[1.04] text-black font-medium">Go</button>
                     </div>
                     <div className="border rounded-md  flex flex-col gap-y-2 max-w-60 p-5  justify-center items-center shadow-md shadow-indigo-300   bg-[#34153185]">
                        <div className="w-24 h-24 border rounded-full"></div>
-                       <span className="text-lg font-medium text-slate-200">EncryptionTool</span>
+                       <span className="text-lg font-medium text-slate-200">Cryptography</span>
                        <div className="text-sm text-center text-purple-200">Lorem ipsum dolor sit amet consectetur adipisicing elit. Ducimus, nemo!</div>
                        <button className=" border py-1 px-10 bg-purple-300 rounded active:scale-[1.04] text-black font-medium">Go</button>
                     </div>
                     <div className="border rounded-md  flex flex-col gap-y-2 max-w-60 p-5  justify-center items-center shadow-md shadow-indigo-300   bg-[#34153185]">
                        <div className="w-24 h-24 border rounded-full"></div>
-                       <span className="text-lg font-medium text-slate-200">EncryptionTool</span>
+                       <span className="text-lg font-medium text-slate-200">CyberLaw</span>
                        <div className="text-sm text-center text-purple-200">Lorem ipsum dolor sit amet consectetur adipisicing elit. Ducimus, nemo!</div>
                        <button className=" border py-1 px-10 bg-purple-300 rounded active:scale-[1.04] text-black font-medium">Go</button>
                     </div>
                     <div className="border rounded-md  flex flex-col gap-y-2 max-w-60 p-5  justify-center items-center shadow-md shadow-indigo-300   bg-[#34153185]">
                        <div className="w-24 h-24 border rounded-full"></div>
-                       <span className="text-lg font-medium text-slate-200">EncryptionTool</span>
+                       <span className="text-lg font-medium text-slate-200">Networking</span>
                        <div className="text-sm text-center text-purple-200">Lorem ipsum dolor sit amet consectetur adipisicing elit. Ducimus, nemo!</div>
                        <button className=" border py-1 px-10 bg-purple-300 rounded active:scale-[1.04] text-black font-medium">Go</button>
                     </div>
@@ -82,7 +107,7 @@ export default function Home() {
               <div className=" flex ipadmini:flex-row flex-col ipadmini:mx-14  py-8 laptop:gap-x-10">
                 {/* left part */}
                 <div className=" ipadmini:w-1/2 flex justify-center items-center w-full  ">
-                   <div className="rounded-full border-2  border-dotted  flex justify-center items-center h-72 w-72 ">
+                   <div className="rounded-full border-2    flex justify-center items-center h-72 w-72 ">
                     <img src={imagemen} alt="" className=" h-60 w-60 " />
                     </div>
                 </div>
@@ -119,7 +144,7 @@ export default function Home() {
                 {/* left part */}
                 <div className=" ipadmini:w-1/2 flex justify-center items-center w-full  ">
                    <div className="rounded-full border-2  border-dotted  flex justify-center items-center h-72 w-72 ">
-                    <img src={imagemen} alt="" className=" h-60 w-60 " />
+                    <img src={AuthImage} alt="" className=" h-80 w-80 " />
                     </div>
                 </div>
                 {/* Right Part */}
@@ -154,44 +179,30 @@ export default function Home() {
                         <div className="text-center text-white text-4xl font-medium  m-7"> Our Latest Blog </div>
                         <div className="grid laptop:grid-cols-3 ipadmini:grid-cols-2 grid-cols-1 gap-4 p-5 ipadmini:mx-14  place-items-center">
                             {/* card-1 */}
-                        <div className=" flex flex-col gap-y-2 border hover:rounded-lg hover:shadow-md hover:shadow-violet-100 transition-all duration-300  ipadmini:w-72 w-full  bg-[#34153185]">
-                         <div className="border relative ">
-                           <img src=" https://templates.envytheme.com/seqty/default/assets/img/about-img-5.jpg" alt="" className="w-full ipadmini:h-40 h-64  " />
-                         <span className=" absolute left-0 bottom-0 px-2 bg-sky-600 text-white">November 20 2023</span>
-                        </div> 
-                         <div className=" px-3  font-medium text-slate-200">Lorem ipsum dolor sit amet consectetur adipisicing elit. Expedita, omnis.</div>
-                         <div className=" px-3 text-[0.9rem] text-purple-200">Lorem ipsum dolor sit amet consectetur adipisicing elit. Vitae excepturi voluptas fugiat </div>
-                         <div className=" px-3 text-center p-2 py-3">
-                           <button className=" py-1 px-3 border rounded-lg active:scale-[1.07] bg-purple-300 font-semibold">ReadMore</button>
-                         </div>
-                      </div>
-
-                      <div className=" flex flex-col gap-y-2 border hover:rounded-lg hover:shadow-md hover:shadow-violet-100 transition-all duration-300  ipadmini:w-72 w-full  bg-[#34153185]">
-                         <div className="border relative ">
-                           <img src=" https://templates.envytheme.com/seqty/default/assets/img/about-img-5.jpg" alt="" className="w-full ipadmini:h-40 h-64  " />
-                         <span className=" absolute left-0 bottom-0 px-2 bg-sky-600 text-white">November 20 2023</span>
-                        </div> 
-                         <div className=" px-3  font-medium text-slate-200">Lorem ipsum dolor sit amet consectetur adipisicing elit. Expedita, omnis.</div>
-                         <div className=" px-3 text-[0.9rem] text-purple-200">Lorem ipsum dolor sit amet consectetur adipisicing elit. Vitae excepturi voluptas fugiat </div>
-                         <div className=" px-3 text-center p-2 py-3">
-                           <button className=" py-1 px-3 border rounded-lg active:scale-[1.07] bg-purple-300 font-semibold">ReadMore</button>
-                         </div>
-                      </div>
-
-                      <div className=" flex flex-col gap-y-2 border hover:rounded-lg hover:shadow-md hover:shadow-violet-100 transition-all duration-300  ipadmini:w-72 w-full  bg-[#34153185]">
-                         <div className="border relative ">
-                           <img src=" https://templates.envytheme.com/seqty/default/assets/img/about-img-5.jpg" alt="" className="w-full ipadmini:h-40 h-64  " />
-                         <span className=" absolute left-0 bottom-0 px-2 bg-sky-600 text-white">November 20 2023</span>
-                        </div> 
-                         <div className=" px-3  font-medium text-slate-200">Lorem ipsum dolor sit amet consectetur adipisicing elit. Expedita, omnis.</div>
-                         <div className=" px-3 text-[0.9rem] text-purple-200">Lorem ipsum dolor sit amet consectetur adipisicing elit. Vitae excepturi voluptas fugiat </div>
-                         <div className=" px-3 text-center p-2 py-3">
-                           <button className=" py-1 px-3 border rounded-lg active:scale-[1.07] bg-purple-300 font-semibold">ReadMore</button>
-                         </div>
-                      </div>
-
-                     
-
+                            {
+                             blogs.map((blog)=>{
+                              return(
+                                <div className=" flex flex-col gap-y-2 border hover:rounded-lg hover:shadow-md hover:shadow-violet-100 transition-all duration-300  ipadmini:w-72 w-full  bg-[#34153185]">
+               <div className="border relative ">
+                <img src={`http://localhost:4202/api/v1/image/blog/${blog.blogId}`} alt="" className="w-full ipadmini:h-40 h-64  " />
+                <span className=" absolute left-0 bottom-0 px-2 bg-sky-600 text-white">November 20 2023</span>
+                </div> 
+                <div className=" flex flex-row justify-start gap-x-2 px-5 items-center ">
+                  <span className=" h-11 w-11 border-2 border-pink-200 rounded-full text-white ">
+                     <img src={`http://localhost:4202/api/v1/image/user/${blog.user.userId}`} alt="" className="w-full h-full rounded-full hover:scale-[4.05] transition-all" />
+                  </span>
+                  <span className="text-white font-medium text-lg">{blog.user.userName}</span>
+                </div>
+               <div className=" px-3  font-medium text-slate-200">{blog.title}</div>
+               <div className=" px-3 text-[0.9rem] text-purple-200">{blog.description}</div>
+               <div className=" px-3 text-center p-2 py-3">
+                <Link to='/Blog' className=" py-1 px-3 border rounded-lg active:scale-[1.07] bg-purple-300 font-semibold">ReadMore</Link>
+               </div>
+            </div>
+                              )
+                             })
+                            }
+            
                         </div>
                       </div>
 
@@ -199,8 +210,8 @@ export default function Home() {
                       <div className="text-white text-center text-4xl my-5">About Us</div>
                       <div className=" flex ipadmini:flex-row flex-col ipadmini:mx-14 p-2 gap-x-4 py-8">
                         {/* Leftpart */}
-                        <div className=" ipadmini:w-1/2 w-full border">
-                            <img src="" alt="" className="h-80 border" />
+                        <div className=" ipadmini:w-1/2 w-full ">
+                            <img src={AboutImage} alt="" className="h-96 " />
                         </div>
                         {/* Right */}
                         <div className=" ipadmini:w-1/2 w-full flex flex-col justify-center ipadmini:ps-10 gap-y-2  p-2">

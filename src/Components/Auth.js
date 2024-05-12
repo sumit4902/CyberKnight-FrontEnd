@@ -10,8 +10,16 @@ import Home from './Home';
 import Navbar from './Navbar';
 import AuthApi from './AuthApi';
 import Profile from './Profile';
+import MAC from './MAC';
+import Hash from './Hash';
+import Monoalphabetic from './Monoalphabetic';
+import Polyalphabetic from './Polyalphabetic';
+import DigitalSignature from './DigitalSignature';
+import ShiftCipher from './ShiftCipher';
 
 export default function Auth() {
+
+  
   return (
    <>
        <Navbar isLogin={true}/> 
@@ -24,6 +32,12 @@ export default function Auth() {
             <Route path='/EncryptionTool/' element={<EncryptionTool/>}>
                <Route path='AES' element={<AES/>}></Route>
                <Route path='DES' element={<DES/>}></Route>
+               <Route path='MAC' element={<MAC/>}></Route>
+               <Route path='HASH' element={<Hash/>}></Route>              
+               <Route path='Monoalphabetic' element={<Monoalphabetic/>}></Route>
+               <Route path='Polyalphabetic' element={<Polyalphabetic/>}></Route>
+               <Route path='DigitalSignature' element={<DigitalSignature/>}></Route>
+               <Route path='ShiftCipher' element={<ShiftCipher/>}></Route>
             </Route>
             <Route path='/Blog' element={<Blog/>}/>
             <Route path='/Authapi' element={<AuthApi/>}/>

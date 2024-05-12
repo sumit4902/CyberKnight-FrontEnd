@@ -2,30 +2,33 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import AuthUser from './AuthUser';
 import ReadMore from './ReadMore';
+import Loader from './Loader';
 export default function Blog() {
    const{user,token,logout}= AuthUser();
     const[filter,Setfilter]=useState(false);
     const[blogmodel,Setblogmodel]=useState(false);
-
+      
       const[Blogdata,SetBlogdata] = useState({
          content:[],
-         pageNo:'',
-         pageSize:'',
+         pageNo:0,
+         pageSize:0,
          totalElements:'',
          totalPages:'',
          lastPage:false,
-         loading:false,
+         loading:false
       })
+     
       const[filterdata,Setfilterdata]=useState({
          crimeType:"",
          title:"",
          commitPlace:""
       })
       
-
-       function  handleBlogApi()
-    {
-      let url =`http://localhost:4202/api/v1/blog/all?crimeType=${filterdata.crimeType}&title=${filterdata.title}&commitPlace=${filterdata.commitPlace}&pageNo=&pageSize&sortBy=&direc=`
+      
+      async function  handleBlogApi()
+    {   
+      let url =`http://localhost:4202/api/v1/blog/all?crimeType=${filterdata.crimeType}&title=${filterdata.title}&commitPlace=${filterdata.commitPlace}&pageNo=${Blogdata.pageNo}&pageSize&sortBy=&direc=`
+      SetBlogdata((prev)=>({...prev,loading:true}));
       axios.get(url,{
          headers:{
             "Authorization":`Bearer `+token
@@ -33,10 +36,12 @@ export default function Blog() {
       })
       .then((response)=>{
           
-         SetBlogdata({ 
-            
-            content: response.data.content
-        });
+         SetBlogdata(prevState => ({ 
+            ...prevState,
+            content: [...prevState.content, ...response.data.content],
+            loading: false
+        }));
+      // SetBlogdata({content:response.data.content})
           console.log(response);
       })
       .catch((error)=>{
@@ -45,7 +50,7 @@ export default function Blog() {
     }
     useEffect(()=>{
       handleBlogApi();
-    },[])
+    },[Blogdata.pageNo])
           
      const[blogWriting,SetblogWriting]=useState({
       crimeType:"",
@@ -55,6 +60,9 @@ export default function Blog() {
       image:""
      })
      
+       const formdata= new FormData();
+       formdata.append('image',blogWriting.image);
+
     function handleblogWriting(event)
     {
       event.preventDefault();
@@ -71,6 +79,13 @@ export default function Blog() {
       }
       ).then((response)=>{
          console.log(response);
+         if(blogWriting.image!=="")
+            {
+         axios.post(`http://localhost:4202/api/v1/image/upload/blog/${response.data.blogId}`,formdata).then((res)=>{
+            console.log(res);
+         }).catch((err)=>{
+            console.log(err);
+         });}
        }).catch((error)=>{
          console.log(error);
        })
@@ -82,6 +97,23 @@ export default function Blog() {
     {
        setIsOpen(value);
     }
+
+    // infinite Scrolling concept //
+    const handleInfiniteSchrolling = async ()=>{
+      if(window.innerHeight + document.documentElement.scrollTop +1 >= document.documentElement.scrollHeight  && Blogdata.pageNo<Blogdata.pageSize)
+      {
+         SetBlogdata((prev)=>({...prev,pageNo:(Blogdata.pageNo+1)}));
+      }
+     
+    }
+   console.log(Blogdata.pageNo);
+    useEffect(()=>{
+         window.addEventListener("scroll",handleInfiniteSchrolling);
+         return()=>window.removeEventListener("scroll",handleInfiniteSchrolling);
+    },[Blogdata.pageNo])
+
+
+
   return (
     <>
      <div className=" w-[100%] bg-gradient-to-b from-[#242472] via-[#81358c] to-zinc-900">
@@ -133,6 +165,12 @@ export default function Blog() {
                    <img src={`http://localhost:4202/api/v1/image/blog/${key.blogId}`} alt="" className="w-full ipadmini:h-40 h-64  " />
                    <span className=" absolute left-0 bottom-0 px-2 bg-sky-600 text-white">November 20 2023</span>
                    </div> 
+                   <div className=" flex flex-row justify-start gap-x-2 px-5 items-center ">
+                  <span className=" h-11 w-11 border-2 border-pink-200 rounded-full text-white ">
+                     <img src={`http://localhost:4202/api/v1/image/user/${key.user.userId}`} alt="" className="w-full h-full rounded-full hover:scale-[4.05] transition-all" />
+                  </span>
+                  <span className="text-white font-medium text-lg">{key.user.userName}</span>
+                </div>
                   <div className=" px-3  font-medium text-slate-200">{key.title}</div>
                   <div className=" px-3 text-[0.9rem] text-purple-200">{key.description} </div>
                   <div className=" px-3 text-center p-2 py-3 ">
@@ -153,6 +191,12 @@ export default function Blog() {
                 <img src=" https://templates.envytheme.com/seqty/default/assets/img/about-img-5.jpg" alt="" className="w-full ipadmini:h-40 h-64  " />
                 <span className=" absolute left-0 bottom-0 px-2 bg-sky-600 text-white">November 20 2023</span>
                 </div> 
+                <div className=" flex flex-row justify-start gap-x-2 px-5 items-center ">
+                  <span className=" h-11 w-11 border-2 border-pink-200 rounded-full text-white ">
+                     <img src="" alt="" className="w-full h-full rounded-full hover:scale-[4.05] transition-all" />
+                  </span>
+                  <span className="text-white font-medium text-lg">Sumit patel</span>
+                </div>
                <div className=" px-3  font-medium text-slate-200">Lorem ipsum dolor sit amet consectetur adipisicing elit. Expedita, omnis.</div>
                <div className=" px-3 text-[0.9rem] text-purple-200">Lorem ipsum dolor sit amet consectetur adipisicing elit. Vitae excepturi voluptas fugiat </div>
                <div className=" px-3 text-center p-2 py-3">
@@ -165,6 +209,12 @@ export default function Blog() {
                 <img src=" https://news-cdn.moonbeam.co/media/HackaTRON-and-TRON-Builder-Tour_19v7hs6r.jpg" alt="" className="w-full ipadmini:h-40 h-64  " />
                 <span className=" absolute left-0 bottom-0 px-2 bg-sky-600 text-white">November 20 2023</span>
                 </div> 
+                <div className=" flex flex-row justify-start gap-x-2 px-5 items-center ">
+                  <span className=" h-11 w-11 border-2 border-pink-200 rounded-full text-white ">
+                     <img src="" alt="" className="w-full h-full rounded-full hover:scale-[4.05] transition-all" />
+                  </span>
+                  <span className="text-white font-medium text-lg">Sumit patel</span>
+                </div>
                <div className=" px-3  font-medium text-slate-200">Lorem ipsum dolor sit amet consectetur adipisicing elit. Expedita, omnis.</div>
                <div className=" px-3 text-[0.9rem] text-purple-200">Lorem ipsum dolor sit amet consectetur adipisicing elit. Vitae excepturi voluptas fugiat </div>
                <div className=" px-3 text-center p-2 py-3">
@@ -174,7 +224,9 @@ export default function Blog() {
 
             
 
-
+              <div className={`${Blogdata.loading?"":"hidden"} ipadmini:col-span-3`}>
+               <Loader/>
+             </div>
           </div>
           
 
@@ -200,8 +252,8 @@ export default function Blog() {
         <textarea onChange={(event)=>(SetblogWriting((prev)=>({...prev,description:event.target.value})))} name="" className='min-h-80  w-full p-5 focus:outline-none bg-transparent border-2 border-white text-white rounded-md placeholder-stone-200' placeholder='Write Your Incident , Advice Regarding CyberCrime'></textarea>
         <div className= " flex flex-row justify-around items-center  py-2">
          <span className="  text-center ">
-            <label htmlFor="102" className=''><span className=" py-2 px-5 border rounded text-white">Upload Image</span></label>
-            <input type="file" className="hidden" id='102' placeholder='Select Image'/>
+            <label htmlFor="102" className=''><span className=" py-2 px-5 border rounded text-white">{blogWriting.image===""?"Upload Image":"Done"}</span></label>
+            <input onChange={(event)=>(SetblogWriting((prev)=>({...prev,image:event.target.files[0]})))} type="file" className="hidden" id='102' placeholder='Select Image'/>
          </span>
          <button type='submit'  className="border py-[0.45rem] px-8 rounded active:scale-[1.07] text-white">Send</button>
         </div>

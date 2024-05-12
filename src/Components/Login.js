@@ -2,7 +2,7 @@ import React, {  useRef, useState } from 'react'
 import signImage from './loginImage.png'
 import loginimage from './signupimge.png'
 import userIcon from'./userIcon.png'
-import axios from 'axios';
+import axios, { Axios } from 'axios';
 import AuthUser from './AuthUser'
 
 
@@ -17,7 +17,8 @@ export default function Login() {
         email:"",
         password:"",
         confirmPassword:"",
-        address:""
+        address:"",
+        image:""
     })
 
     const [logindetail,setlogindetail] = useState({
@@ -64,6 +65,9 @@ export default function Login() {
     }
  
   // SignUp Api calling  //
+  const fromData = new FormData();
+    fromData.append('image',userDetails.image);
+
    const  handleSignUp =(e)=>{
    e.preventDefault();
    let check = signUpValidation();
@@ -80,6 +84,10 @@ export default function Login() {
      }
     ).then((response)=>{
       console.log(response);
+      if(userDetails.image!=="")
+        {
+            axios.post(`http://localhost:4202/api/v1/image/upload/user/${response.data.userId}`,fromData).then((res)=>{console.log("image uploaded ...")}).catch((err)=>{console.log("error in image uploading")})
+        }
       Setswipper(true);   // image post api also call here //
           })
     .catch((error)=>{
@@ -154,8 +162,8 @@ export default function Login() {
                         <div className="col-span-2 flex flex-row items-center ipadmini:gap-x-28 gap-x-8 ">
                             <div className={`"relative ${swipper?"invisible":""} `}>
                                <label htmlFor="101"> <img src={userIcon} alt="" className="h-20 w-24 " />
-                                <input type="file" className="hidden" id='101'/>
-                                <span className="absolute  top-28 text-sky-100 font-semibold min-w-28">upload image</span>
+                                <input type="file" onChange={(event)=>{setUserDetail((prev)=>({...prev,image:event.target.files[0]}))}} className="hidden" id='101'/>
+                                <span className={`"absolute  top-28 text-sky-100 font-semibold min-w-28  `}>{userDetails.image!==""?"Done":"upload image"}</span>
                                 </label>
                             </div>
                         <div className="text-center text-white text-lg font-medium">SignUp Now</div>
