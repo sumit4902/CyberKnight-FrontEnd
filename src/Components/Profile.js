@@ -7,7 +7,7 @@ import UpdateProfile from './UpdateProfile';
 
 export default function Profile() {
   const [blogmodel, Setblogmodel] = useState(false);
-  const { user, token, logout } = AuthUser();
+  const { user, token } = AuthUser();  //logout
   const userId = user;
   const usertoken = token;
 
@@ -26,7 +26,7 @@ export default function Profile() {
   useEffect(() => {
     handleProfileApi();
     fetchAllblogsofUser();
-  }, [])
+  },[])
   function handleProfileApi() {
     let url = `http://localhost:4202/api/v1/user/${userId}`
     axios.get(url, {
@@ -41,7 +41,7 @@ export default function Profile() {
       // logout();
       // window.location.reload();
     });
-  }
+  } 
   const [blogs, setBlogs] = useState([]);
   function fetchAllblogsofUser() {
     let url = `http://localhost:4202/api/v1/user/${userId}/blog/all`
@@ -222,7 +222,7 @@ export default function Profile() {
               <textarea value={blogWriting.description} onChange={(event) => (SetblogWriting((prev) => ({ ...prev, description: event.target.value })))} name="" className='min-h-80  w-full p-5 focus:outline-none bg-transparent border-2 border-white text-white rounded-md placeholder-stone-200' placeholder='Write Your Incident , Advice Regarding CyberCrime'></textarea>
               <div className=" flex flex-row justify-around items-center  py-2">
                 <span className="  text-center ">
-                  <label htmlFor="102" className=''><span className=" py-2 px-5 border rounded text-white">{blogimage == "" ? "Upload Image" : "Uploaded"}</span></label>
+                  <label htmlFor="102" className=''><span className=" py-2 px-5 border rounded text-white">{blogimage === "" ? "Upload Image" : "Uploaded"}</span></label>
                   <input type="file" className="hidden" id='102' placeholder='Select Image' onChange={(e) => { setBlogImage(e.target.files[0]) }} />
                 </span>
                 <button type='submit' className="border py-[0.45rem] px-8 rounded active:scale-[1.07] text-white">Send</button>

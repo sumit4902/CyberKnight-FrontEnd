@@ -42,7 +42,7 @@ export default function Auth() {
             <Route path='/Blog' element={<Blog/>}/>
             <Route path='/Authapi' element={<AuthApi/>}/>
             <Route path='/Profile' element={<Profile/>}/>
-            
+             
 
 
     </Routes>

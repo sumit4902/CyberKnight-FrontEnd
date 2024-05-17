@@ -8,7 +8,7 @@ import AuthUser from './AuthUser'
 
 export default function ShiftCipher() {
   // this is use for the Token 
-  const{user,token,logout}= AuthUser();
+  const{token}= AuthUser();
         
 
     const[message,Setmessage]=useState();
@@ -39,7 +39,7 @@ export default function ShiftCipher() {
   )
 
    }
-
+ 
    function decryptionMessage()
    {  let url=`http://localhost:4202/api/v1/decrypt/Message?key=${key}&algoType=ShiftCipher`
       axios.post(url,
@@ -55,7 +55,7 @@ export default function ShiftCipher() {
       {
        
         Setoutput(response.data.plainText);
-        if(output=="")
+        if(output==="")
         {
           Setoutput("Your CipherText or Key is Something Wrong");
         }

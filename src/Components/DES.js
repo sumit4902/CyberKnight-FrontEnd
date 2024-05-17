@@ -8,7 +8,7 @@ import AuthUser from './AuthUser'
 
 export default function DES() {
   // this is use for the Token 
-  const{user,token,logout}= AuthUser();
+  const{token}= AuthUser();
         
 
     const[message,Setmessage]=useState();
@@ -23,7 +23,7 @@ export default function DES() {
     axios.post(url,
     {
       plainText:message
-    },
+    }, 
     {
       headers:{
          "Authorization":`Bearer `+token
@@ -63,7 +63,7 @@ export default function DES() {
     }).catch((error)=>{
       console.log(error);
     }
-    )
+    ) 
    }
   return (
    <>

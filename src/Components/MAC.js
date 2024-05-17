@@ -8,7 +8,7 @@ import AuthUser from './AuthUser'
 
 export default function MAC() {
   // this is use for the Token 
-  const{user,token,logout}= AuthUser();
+  const{token}= AuthUser();
         
 
     const[message,Setmessage]=useState();
@@ -55,7 +55,7 @@ export default function MAC() {
       {
        
         Setoutput(response.data.plainText);
-        if(output=="")
+        if(output==="")
         {
           Setoutput("Your CipherText or Key is Something Wrong");
         }

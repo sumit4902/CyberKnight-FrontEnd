@@ -4,7 +4,7 @@ import AuthUser from './AuthUser';
 import ReadMore from './ReadMore';
 import Loader from './Loader';
 export default function Blog() {
-   const{user,token,logout}= AuthUser();
+   const{user,token}= AuthUser();
     const[filter,Setfilter]=useState(false);
     const[blogmodel,Setblogmodel]=useState(false);
       
@@ -192,7 +192,7 @@ export default function Blog() {
                 <span className=" absolute left-0 bottom-0 px-2 bg-sky-600 text-white">November 20 2023</span>
                 </div> 
                 <div className=" flex flex-row justify-start gap-x-2 px-5 items-center ">
-                  <span className=" h-11 w-11 border-2 border-pink-200 rounded-full text-white ">
+                <span className=" h-11 w-11 border-2 border-pink-200 rounded-full text-white ">
                      <img src="" alt="" className="w-full h-full rounded-full hover:scale-[4.05] transition-all" />
                   </span>
                   <span className="text-white font-medium text-lg">Sumit patel</span>

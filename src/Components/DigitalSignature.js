@@ -8,7 +8,7 @@ import AuthUser from './AuthUser'
 
 export default function DigitalSignature() {
   // this is use for the Token 
-  const{user,token,logout}= AuthUser();
+  const{token}= AuthUser();
         
 
     const[message,Setmessage]=useState();
@@ -55,7 +55,7 @@ export default function DigitalSignature() {
       {
        
         Setoutput(response.data.plainText);
-        if(output=="")
+        if(output==="")
         {
           Setoutput("Your CipherText or Key is Something Wrong");
         }
@@ -86,7 +86,7 @@ export default function DigitalSignature() {
     <img src={mark} alt="" className=" h-10 w-10" />
     <span className=" ">Resistance to Attack</span>
     </div>
-   </div>
+   </div> 
      {/* Encryption / Decryption */}
    <div className=" flex ipadmini:flex-row flex-col gap-x-5 justify-between  ">
     <div className="  ipadmini:w-1/2 w-full">

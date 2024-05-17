@@ -8,7 +8,7 @@ import AuthUser from './AuthUser'
 
 export default function Hash() {
   // this is use for the Token 
-  const{user,token,logout}= AuthUser();
+  const{token}= AuthUser();
         
 
     const[message,Setmessage]=useState();

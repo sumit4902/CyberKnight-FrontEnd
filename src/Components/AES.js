@@ -6,10 +6,10 @@ import Accordian from './Accordian'
 import axios from 'axios'
 import AuthUser from './AuthUser'
 import Loader from './Loader'
-
+ 
 export default function AES() {
   // this is use for the Token 
-  const{user,token,logout}= AuthUser();
+  const{token}= AuthUser();
         
 
     const[message,Setmessage]=useState();
@@ -60,7 +60,7 @@ export default function AES() {
       {
          setLoader(false);
         Setoutput(response.data.plainText);
-        if(output=="")
+        if(output==="")
         {
           Setoutput("Your CipherText or Key is Something Wrong");
         }

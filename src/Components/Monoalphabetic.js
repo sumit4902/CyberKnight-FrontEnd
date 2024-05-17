@@ -8,7 +8,7 @@ import AuthUser from './AuthUser'
 
 export default function Monoalphabetic() {
   // this is use for the Token 
-  const{user,token,logout}= AuthUser();
+  const{token}= AuthUser();
         
 
     const[message,Setmessage]=useState();
@@ -55,7 +55,7 @@ export default function Monoalphabetic() {
       {
        
         Setoutput(response.data.plainText);
-        if(output=="")
+        if(output==="")
         {
           Setoutput("Your CipherText or Key is Something Wrong");
         }
@@ -97,7 +97,7 @@ export default function Monoalphabetic() {
         <button onClick={()=>{handleencryption()}} className="border-2 py-2 px-8 rounded-md active:scale-[1.07]  text-white font-semibold  ">Encryption</button>
         <button onClick={()=>{decryptionMessage()}} className="border-2 py-2 px-8 rounded-md active:scale-[1.07] text-white font-semibold">Decryption</button>
        </div>
-    </div>
+    </div> 
     <div className=" ipadmini:w-1/2 w-full border-white ">
         <div className='w-full min-h-56 border-4 border-white rounded-md p-2 text-white'>{output}</div>
     </div>
