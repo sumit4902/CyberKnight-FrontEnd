@@ -33,7 +33,7 @@ export default function Blog() {
          headers:{
             "Authorization":`Bearer `+token
          }
-      })
+      }) 
       .then((response)=>{
           
          SetBlogdata(prevState => ({ 
@@ -50,6 +50,7 @@ export default function Blog() {
     }
     useEffect(()=>{
       handleBlogApi();
+      // eslint-disable-next-line
     },[Blogdata.pageNo])
           
      const[blogWriting,SetblogWriting]=useState({
@@ -110,6 +111,7 @@ export default function Blog() {
     useEffect(()=>{
          window.addEventListener("scroll",handleInfiniteSchrolling);
          return()=>window.removeEventListener("scroll",handleInfiniteSchrolling);
+         // eslint-disable-next-line
     },[Blogdata.pageNo])
 
 

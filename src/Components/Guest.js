@@ -1,6 +1,6 @@
-import React, { useState } from 'react'
+import React from 'react'
 import Navbar from './Navbar'
-import { Route, Routes, useNavigate } from 'react-router-dom'
+import { Route, Routes} from 'react-router-dom'
 import Login from './Login'
 import Footer from './Footer'
 import ForgotPassword from './ForgotPassword'

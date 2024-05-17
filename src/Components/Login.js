@@ -2,7 +2,7 @@ import React, {  useRef, useState } from 'react'
 import signImage from './loginImage.png'
 import loginimage from './signupimge.png'
 import userIcon from'./userIcon.png'
-import axios, { Axios } from 'axios';
+import axios from 'axios';
 import AuthUser from './AuthUser'
 import ValidUserImage from './ValidUserImage.png'
 import Loader from './Loader';

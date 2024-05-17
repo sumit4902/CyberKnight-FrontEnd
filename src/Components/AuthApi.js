@@ -15,7 +15,7 @@ export default function AuthApi() {
         axios.post(url)
         .then((response)=>{
             console.log(response);
-         //  SetresponseKey({key:response.data});
+           SetresponseKey({key:response.data});
         })
         .catch((error)=>
     {

@@ -3,7 +3,7 @@ import mark from './mark-removebg-preview.png'
 import uparraow from './uarrow.png'
 import darrow from './darrow.png'
 import Accordian from './Accordian'
-import axios from 'axios'
+import axios from 'axios' 
 import AuthUser from './AuthUser'
 
 export default function MAC() {

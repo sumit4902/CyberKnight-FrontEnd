@@ -3,7 +3,6 @@ import shieldImage from './ShieldImage.png'
 import ringImage from './ringImage.png'
 import imagemen from './imagemen.png'
 import AboutImage from './AboutImage.png'
-import AuthImage from './HomeAuthImage.png'
 import mark from './mark-removebg-preview.png'
 import { Link } from 'react-router-dom'
 import AuthUser from './AuthUser';
@@ -17,9 +16,11 @@ import image6 from '../Images/Screenshot__48_-removebg-preview.png'
 import workerImage from '../Images/CyberSecurityWorkers.png'
 
 export default function Home() {
-  const { user, token, logout } = AuthUser();
+  const { token } = AuthUser();
   const [blogs, setBlogs] = useState([]);
 
+
+  useEffect(() => {
   function fetchAllblogsofUser() {
     let url = `http://localhost:4202/api/v1/blog/all?crimeType=&title=&commitPlace=&pageNo=0&pageSize=3&sortBy=blogId&direc=desc`
     axios.get(url, {
@@ -34,9 +35,10 @@ export default function Home() {
       console.log(err);
     })
   }
-  useEffect(() => {
+  
    
     fetchAllblogsofUser();
+    // eslint-disable-next-line
   }, [])
   return (
     <>
@@ -73,37 +75,37 @@ export default function Home() {
                 <div className=" grid ipadmini:grid-cols-3 grid-cols-2 gap-3 gap-y-5 py-2 ipadmini:mx-14 mx-2 place-items-center  laptop:px-28 ">
                     
                     <div className="border rounded-md  flex flex-col gap-y-2 max-w-60 min-h-80 p-5  justify-center items-center shadow-md shadow-indigo-300   bg-[#34153185]">
-                       <img src={image1} className="w-24 h-24  p-1"></img>
+                       <img src={image1} className="w-24 h-24  p-1" alt='not found'></img>
                        <span className="text-lg font-medium text-slate-200">EncryptionTool</span>
                        <div className="text-sm text-center text-purple-200">Effortless Encryption & Decryption for Everyone , Protect Your Information in a Few Clicks</div>
                        <Link to='/EncryptionTool/AES' className=" border py-1 px-10 bg-purple-300 rounded active:scale-[1.04] text-black font-medium">Go</Link>
                     </div>
                     <div className="border rounded-md  flex flex-col gap-y-2 max-w-60 min-h-80 p-5  justify-center items-center shadow-md shadow-indigo-300   bg-[#34153185]">
-                    <img src={image6} className="w-24 h-24  p-1"></img>
+                    <img src={image6} className="w-24 h-24  p-1"  alt='not found'></img>
                        <span className="text-lg font-medium text-slate-200">CyberSecurity Blogs</span>
                        <div className="text-sm text-center text-purple-200">Write and Publish Blogs on Cyber Security , Latest News and Incidents in Cyber Security</div>
                        <Link to='/Blogs' className=" border py-1 px-10 bg-purple-300 rounded active:scale-[1.04] text-black font-medium">Go</Link>
                     </div>
                     <div className="border rounded-md  flex flex-col gap-y-2 max-w-60 min-h-80 p-5  justify-center items-center shadow-md shadow-indigo-300   bg-[#34153185]">
-                    <img src={image5} className="w-24 h-24  p-1"></img>
+                    <img src={image5} className="w-24 h-24  p-1"  alt='not found'></img>
                        <span className="text-lg font-medium text-slate-200">Authentication Apis</span>
                        <div className="text-sm text-center text-purple-200">Manage Your Authentication Effortlessly</div>
                        <Link to='/Authapi' className=" border py-1 px-10 bg-purple-300 rounded active:scale-[1.04] text-black font-medium">Go</Link>
                     </div>
                     <div className="border rounded-md  flex flex-col gap-y-2 max-w-60  min-h-80 p-5  justify-center items-center shadow-md shadow-indigo-300   bg-[#34153185]">
-                    <img src={image2} className="w-24 h-24  p-1"></img>
+                    <img src={image2} className="w-24 h-24  p-1"  alt='not found'></img>
                        <span className="text-lg font-medium text-slate-200">Cryptography</span>
                        <div className="text-sm text-center text-purple-200">Learn the basic principles and techniques of cryptography.</div>
                        <Link to='/EncryptionTool/AES' className=" border py-1 px-10 bg-purple-300 rounded active:scale-[1.04] text-black font-medium">Go</Link>
                     </div>
                     <div className="border rounded-md  flex flex-col gap-y-2 max-w-60 min-h-80 p-5  justify-center items-center shadow-md shadow-indigo-300   bg-[#34153185]">
-                    <img src={image3} className="w-24 h-24  p-1"></img>
+                    <img src={image3} className="w-24 h-24  p-1"  alt='not found'></img>
                        <span className="text-lg font-medium text-slate-200">CyberLaw</span>
                        <div className="text-sm text-center text-purple-200">Gain a comprehensive understanding of the legal aspects of cyberspace.</div>
                        <Link to='/EncryptionTool/AES' className=" border py-1 px-10 bg-purple-300 rounded active:scale-[1.04] text-black font-medium">Go</Link>
                     </div>
                     <div className="border rounded-md  flex flex-col gap-y-2 max-w-60 min-h-80 p-5  justify-center items-center shadow-md shadow-indigo-300   bg-[#34153185]">
-                    <img src={image4} className="w-24 h-24  p-1"></img>
+                    <img src={image4} className="w-24 h-24  p-1"  alt='not found'></img>
                        <span className="text-lg font-medium text-slate-200">Networking</span>
                        <div className="text-sm text-center text-purple-200">Step-by-Step Networking Guides for Beginners and Experts</div>
                        <Link to='/EncryptionTool/AES' className=" border py-1 px-10 bg-purple-300 rounded active:scale-[1.04] text-black font-medium">Go</Link>

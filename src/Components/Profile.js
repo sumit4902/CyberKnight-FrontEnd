@@ -21,11 +21,12 @@ export default function Profile() {
       image: "",
       loading: true
     }
-  )
+  ) 
 
   useEffect(() => {
     handleProfileApi();
     fetchAllblogsofUser();
+    // eslint-disable-next-line
   },[])
   function handleProfileApi() {
     let url = `http://localhost:4202/api/v1/user/${userId}`
