@@ -4,12 +4,18 @@ import loginimage from './signupimge.png'
 import userIcon from'./userIcon.png'
 import axios, { Axios } from 'axios';
 import AuthUser from './AuthUser'
+import ValidUserImage from './ValidUserImage.png'
+import Loader from './Loader';
 
 
 export default function Login() {
-    const[swipper,Setswipper]=useState(true);
     
+    const[swipper,Setswipper]=useState(true);    
    
+    // loaders //
+    const[loginLoader,setloginLoader]=useState(false);
+    const[signupLoader,setsignupLoader]=useState(false);
+
 
     const[userDetails,setUserDetail]= useState({
         userName:"",
@@ -38,6 +44,7 @@ export default function Login() {
       let check=loginValidation();
       if(check==="")
       {
+        setloginLoader(true);
         let url ='http://localhost:4202/api/v1/auth/login'
         axios.post(url,
         logindetail
@@ -46,6 +53,7 @@ export default function Login() {
         if(response.data!=='Invalid Username or Password  !!')
         {
             setToken(response.data.id,response.data.jwtToken);
+            setloginLoader(false);
             window.location.reload();
         }
       else{
@@ -56,7 +64,8 @@ export default function Login() {
     })
     .catch(()=>{
        
-        userref.current.innerHTML="Invalid userName Or password";
+        userref.current.innerHTML="Invalid userName Or password ";
+        setloginLoader(false);
     })
   }
   else{
@@ -68,11 +77,66 @@ export default function Login() {
   const fromData = new FormData();
     fromData.append('image',userDetails.image);
 
-   const  handleSignUp =(e)=>{
-   e.preventDefault();
-   let check = signUpValidation();
-       if(check==="")
-   {
+
+ 
+   const[OTP,setOTP]=useState("");
+   const[inputOTP,setInputOTP]=useState({
+    first:"",
+    second:"",
+    third:"",
+    fourth:""
+   })
+   const[OTPmodel,setOTPmodel]=useState(false);
+// handleApi toKey to //
+function sendOTP(event)
+{    event.preventDefault();
+    
+    let check = signUpValidation();
+    if(check==="")
+        {  
+            setsignupLoader(true);
+         axios.post("http://localhost:4202/api/v1/sendOTP",{
+        gmailId:userDetails.email,
+        subject:"It's For your Email verification",
+       
+      }).then((response)=>{
+        alert("We have sent you  OTP via mail for gmailId verification");
+       // console.log(response.data);
+       setsignupLoader(false);
+        setOTPmodel(true);
+        setOTP(response.data.message);
+      })
+      .catch((error)=>{
+        console(error);
+        setsignupLoader(false);
+      })
+    }
+    else{
+        signupref.current.innerHTML=check;
+    }
+}
+    // OTP verification and Signup function //
+    function OTPverification (e)
+    {  e.preventDefault();
+       let userReceivedOTP = inputOTP.first+inputOTP.second+inputOTP.third+inputOTP.fourth; 
+       // Account Data Validation put overHere //
+       
+       if(OTP===userReceivedOTP)
+        {
+            setOTPmodel(false);
+           handleSignUp();
+          //console.log("Successfully Validation");
+
+        }
+        else{
+           
+            setOTPmodel(false);
+            //give meesage for invalid otp //
+            alert("Invalid OTP");
+        }
+    }
+   const  handleSignUp =()=>{
+  
     let url = 'http://localhost:4202/api/v1/user/create'  
     axios.post(url,
      {
@@ -83,7 +147,7 @@ export default function Login() {
         password:userDetails.password.trim()
      }
     ).then((response)=>{
-      console.log(response);
+      //console.log(response);
       if(userDetails.image!=="")
         {
             axios.post(`http://localhost:4202/api/v1/image/upload/user/${response.data.userId}`,fromData).then((res)=>{console.log("image uploaded ...")}).catch((err)=>{console.log("error in image uploading")})
@@ -93,11 +157,10 @@ export default function Login() {
     .catch((error)=>{
       //console.log(error);
       signupref.current.innerHTML="Account is Already Exist Login Please !";
+    
     }
-    )}
-        else{
-            signupref.current.innerHTML=check;
-        }
+    )
+       
    }
 
    // Validation Functions //
@@ -138,7 +201,35 @@ export default function Login() {
         return""
     }
    }
+    // Forgot Password //
+    function sendForgotUrl()
+    { 
+        if(logindetail.username==="")
+            {
+                userref.current.innerHTML="give email only";
+            }
+            else{
 
+           setloginLoader(true);
+        let url = 'http://localhost:4202/api/v1/sendEmail';
+        axios.post(url,{
+            gmailId:logindetail.username,
+           subject:"Reset Your Password",
+           baseUrl:"http://192.168.178.232:3000/ForgotPassword/"
+        })
+         .then((response)=>{
+            //console.log(response);
+            setloginLoader(false);
+            alert("We have sent You a mail for Password Reset ");
+               })
+        .catch((err)=>{
+            //console.log(err);
+            userref.current.innerHTML="Invalid email";
+        })
+    }
+    }
+    
+   
   return (
    <>
     <div className=" w-[100%] bg-gradient-to-b from-[#242472] via-[#81358c] to-zinc-900">
@@ -147,7 +238,7 @@ export default function Login() {
       
          <div className="relative flex ipadmini:flex-row flex-col  laptop:mx-14  ">
             {/* Swipper */}
-            <div className={`absolute top-0 ${swipper?"ipadmini:translate-x-0 translate-y-0 ":"ipadmini:translate-x-[100%] ipadmini:translate-y-0 translate-y-[100%]"}  left-0  ipadmini:h-full h-[53%] ipadmini:w-1/2 w-full transition-all duration-700 ease-in-out   bg-gradient-to-b from-[#242472] via-[#81358c] to-zinc-900 `}>
+            <div className={`absolute z-40 top-0 ${swipper?"ipadmini:translate-x-0 translate-y-0 ":"ipadmini:translate-x-[100%] ipadmini:translate-y-0 translate-y-[100%]"}  left-0  ipadmini:h-full h-[53%] ipadmini:w-1/2 w-full transition-all duration-700 ease-in-out   bg-gradient-to-b from-[#242472] via-[#81358c] to-zinc-900 `}>
                   <div className={`${swipper?'block':"hidden"} flex justify-center items-center h-full`}>
                     <img src={loginimage} alt="" className=" h-full w-full p-20 " />
                   </div>
@@ -157,8 +248,9 @@ export default function Login() {
                 
             </div>
             {/* left */}
-            <div className="ipadmini:w-1/2 w-full border py-8">
-                    <form onSubmit={handleSignUp} action="" className=" grid grid-cols-2 px-8 gap-6 place-content-center">
+            <div className=" realtive ipadmini:w-1/2 w-full border py-8">
+            <div className={ ` ${signupLoader?"":"hidden"} absolute top-3 flex justify-center items-center w-full `}> <Loader/></div>          
+                    <form onSubmit={sendOTP} action="" className=" grid grid-cols-2 px-8 gap-6 place-content-center">
                         <div className="col-span-2 flex flex-row items-center ipadmini:gap-x-28 gap-x-8 ">
                             <div className={`"relative ${swipper?"invisible":""} `}>
                                <label htmlFor="101"> <img src={userIcon} alt="" className="h-20 w-24 " />
@@ -202,8 +294,10 @@ export default function Login() {
                     </form>
             </div>
             {/* Right */}
-            <div className="ipadmini:w-1/2 w-full  flex flex-col justify-center items-center">
-                <form onSubmit={handleLogin} action="" className=" flex flex-col justify-center items-center gap-y-5 border p-14">
+            <div className=" ipadmini:w-1/2 w-full  flex flex-col justify-center items-center">
+            
+                <form onSubmit={handleLogin} action="" className="relative flex flex-col justify-center items-center gap-y-5 border p-14">
+                <div className={ ` ${loginLoader?"":"hidden"} absolute top-3 `}> <Loader/></div>
                 <div className="text-white text-center text-xl font-medium">Login Now</div>       
                     <div className="w-full"><span className="text-white">Enter Email or PhoneNo</span><span className="text-red-200 ps-2">*</span> </div>
                     <input onChange={(e)=>{setlogindetail((prev)=>({...prev,username:e.target.value}))}} type="text" className="w-full focus:outline-none py-2 px-2 bg-transparent border-[1.5px] focus:shadow-md focus:shadow-violet-300 text-white placeholder-zinc-300 rounded-md" placeholder='Email or PhoneNo' />
@@ -212,14 +306,35 @@ export default function Login() {
                     <span className="text-amber-600 font-semibold h-6" ref={userref}></span>          
 
                     <button className="border px-10 py-[8px] text-white font-medium rounded active:scale-[1.07]">SignIn</button>
+                     <div onClick={sendForgotUrl} className=" text-white cursor-pointer">Forgot Password</div>
                     <div className="text-white">If you have no Account 
                      <span  className='text-white underline ps-2' onClick={()=>{Setswipper(false)}}>Signup</span>
                     </div>
-                   
-                </form>
+                    </form>
                
             </div>
          </div>
+
+             {/* OTP Model  */}
+             <div className={`${OTPmodel?"fixed":"hidden"} inset-0 backdrop-blur-lg flex justify-center items-center `}>
+                 <form onSubmit={OTPverification} className=" flex flex-col justify-center items-center gap-y-10 border py-5 px-10">
+                    <div className=" flex  w-full justify-end items-end"><span className=" text-white">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-8 h-8">
+                              <path strokeLinecap="round" strokeLinejoin="round" d="m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                              </svg>
+                        </span>
+                    </div>
+                    <img src={ValidUserImage} alt="" className="h-48 w-48" />
+                   <div className=" flex flex-row gap-x-5">
+                    <input onChange={(event)=>(setInputOTP((prev)=>({...prev,first:event.target.value})))} type="text" className="w-10 h-10 border focus:outline-none p-3 rounded bg-transparent text-white" maxLength='1'/>
+                    <input onChange={(event)=>(setInputOTP((prev)=>({...prev,second:event.target.value})))} type="text" className="w-10 h-10 border focus:outline-none p-3 rounded bg-transparent text-white" maxLength="1"/>
+                    <input onChange={(event)=>(setInputOTP((prev)=>({...prev,third:event.target.value})))} type="text" className="w-10 h-10 border focus:outline-none p-3 rounded bg-transparent text-white" maxLength="1"/>
+                    <input onChange={(event)=>(setInputOTP((prev)=>({...prev,fourth:event.target.value})))} type="text" className="w-10 h-10 border focus:outline-none p-3 rounded bg-transparent text-white" maxLength="1"/>
+                    </div>
+                    <button type='submit' className="border px-3 py-1 rounded text-white active:scale-[1.07]">Verify</button>
+                 </form>
+             </div>
+        
       </div>
       </div>
    </>

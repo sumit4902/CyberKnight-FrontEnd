@@ -9,10 +9,10 @@ export default function Navbar(props)
        const{logout}= AuthUser();
        function Logout(){
            logout();
-           setTimeout(()=>{
+           
               window.location.reload();
               Settoggle(false);
-           },1000)
+          
           
        }
 return(
